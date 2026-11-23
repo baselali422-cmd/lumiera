@@ -30,5 +30,7 @@
 .lum-wf-offer{border:1px dashed #c9a64c;border-radius:12px;padding:8px 16px;font-size:13px;color:#3d3428;display:flex;flex-direction:column;gap:2px;min-width:132px;align-items:center}
 .lum-dark .lum-wf-offer{color:#e8ddc8}
 .lum-wf-num{font-size:24px;font-weight:700;color:#a8832e;line-height:1.2}
-.lum-wf-date{font-size:12.5px;color:#7a6c50;margin-bottom:12px}
+.lum-wf-date{font-size:12.5px;color:#7a6c50;margin-bottom:4px}
+.lum-wf-note{font-size:12px;color:#7a6c50;margin-bottom:12px;line-height:1.5}
 .lum-dark .lum-wf-date{color:#c9b68a}
+.lum-dark .lum-wf-note{color:#c9b68a}
