@@ -341,8 +341,8 @@ function ensureProductButton(){
   bn.className="lum-buy-now";
   order.parentNode.insertBefore(bn,b.nextSibling);
  }
- if(b.getAttribute("data-pn")===String(n))return;
- b.setAttribute("data-pn",String(n));
+ if(b.getAttribute("data-pn")===String(n)&&b.getAttribute("data-lg")===lang())return;
+ b.setAttribute("data-pn",String(n));b.setAttribute("data-lg",lang());
  b.textContent=T[lang()].add;b.classList.remove("added");
  b.onclick=function(){
   addToCart(n);
@@ -372,8 +372,8 @@ function ensureQuizButton(){
   res.appendChild(b);
  }
  /* same stale-binding fix as the product page button */
- if(b.getAttribute("data-pn")===String(n))return;
- b.setAttribute("data-pn",String(n));
+ if(b.getAttribute("data-pn")===String(n)&&b.getAttribute("data-lg")===lang())return;
+ b.setAttribute("data-pn",String(n));b.setAttribute("data-lg",lang());
  b.textContent=T[lang()].add;b.classList.remove("added");
  b.onclick=function(){
   addToCart(n);
@@ -388,6 +388,7 @@ function onMut(){
  setTimeout(function(){
   scheduled=false;
   syncTheme();
+  if(window.__lumLg!==lang()){window.__lumLg=lang();if(drawerOpen)renderDrawer();}
   ensureProductButton();
   ensureQuizButton();
  },60);
