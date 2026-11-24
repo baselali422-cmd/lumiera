@@ -311,6 +311,15 @@ function sendOrder(kind){
  }
 }
 
+/* public API for the wishlist: add several products at once */
+window.lumCart={addMany:function(list,msg){
+ for(var i=0;i<list.length;i++){var n=+list[i];if(prod(n))cart[n]=Math.min(99,(cart[n]||0)+1);}
+ save(cart);syncBadge();bump();
+ var snap={};for(var k in cart)snap[k]=cart[k];saveLast(snap);
+ if(msg)showToast(msg);
+ openDrawer();
+}};
+
 /* ---------- add-to-cart buttons inside the SPA ---------- */
 function ensureProductButton(){
  var m=location.hash.match(/^#\/p\/(\d+)/);
