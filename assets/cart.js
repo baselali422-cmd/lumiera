@@ -1,4 +1,4 @@
-/* Lumiera cart: collect products, send the order to WhatsApp / TikTok / Instagram. */
+/* Lumiera cart: collect products, send the order to WhatsApp / TikTok. */
 (function(){
 "use strict";
 
@@ -34,7 +34,6 @@ var PRODUCTS=[
 ];
 
 var WA_NUMBER="201031914373";
-var IG_URL="https://www.instagram.com/lumierabeauty5/";
 var TT_URL="https://www.tiktok.com/@lumiera_beauty1";
 var STORE_KEY="lum-cart";
 var CUST_KEY="lum-cust";
@@ -59,7 +58,6 @@ var T={
   total:"الإجمالي",
   ship:"الشحن من ٣ أيام لأسبوع — الأسعار شاملة خصم الوايت فرايداي 10%",
   wa:"إتمام الطلب على واتساب",
-  ig:"ابعت الطلب على انستجرام",
   tt:"ابعت الطلب على تيك توك",
   copied:"تم نسخ الطلب ✅ ابعته في الرسايل",
   msgHead:"طلب جديد من موقع لوميرا 🧼",
@@ -87,7 +85,6 @@ var T={
   total:"Total",
   ship:"Shipping in 3 days to a week — prices include the 10% White Friday discount",
   wa:"Checkout on WhatsApp",
-  ig:"Send the order on Instagram",
   tt:"Send the order on TikTok",
   copied:"Order copied ✅ paste it in the DMs",
   msgHead:"New order from the LUMIERA website 🧼",
@@ -254,7 +251,6 @@ function renderDrawer(){
    +'</div>'
    +'<div class="lum-cart-send">'
    +'<button class="lum-send-wa" data-send="wa">'+t.wa+'</button>'
-   +'<button class="lum-send-ig" data-send="ig">'+t.ig+'</button>'
    +'<button class="lum-send-tt" data-send="tt">'+t.tt+'</button>'
    +'</div></div>';
  }
@@ -303,7 +299,7 @@ function sendOrder(kind){
  if(kind==="wa"){
   window.open("https://api.whatsapp.com/send?phone="+WA_NUMBER+"&text="+encodeURIComponent(txt),"_blank");
  }else{
-  var url=kind==="ig"?IG_URL:TT_URL;
+  var url=TT_URL;
   copyText(txt,function(){
    showToast(T[lang()].copied);
    window.open(url,"_blank");
