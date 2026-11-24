@@ -93,38 +93,40 @@ const PRODUCTS = [
 ];
 
 const QUESTIONS = [
-  { q:"اختار اللون اللي بيسحرك أكتر", tag:"color", w:3, opts:[
-    ["👑","ذهبي فاخر","gold"],
-    ["🌸","وردي وتوتي ناعم","pink"],
-    ["🌊","أزرق نيلي","blue"],
-    ["💚","أخضر زمردي","green"],
-    ["🤍","أبيض لؤلؤي وفضي","pearl"],
-    ["🌙","غامق وغامض","dark"]
+  { q:"إيه نوع بشرتك؟", opts:[
+    ["💧","دهنية","oily"],["⚖️","مختلطة","combo"],["🙂","عادية","normal"],["🏜️","جافة","dry"],["🌸","حساسة","sensitive"]
   ]},
-  { q:"إيه المزاج اللي بيوصفك أكتر؟", tag:"mood", w:3, opts:[
-    ["🏺","فخامة ملكية","royal"],
-    ["💗","رومانسي وحالم","romantic"],
-    ["🍃","هادي وصافي","calm"],
-    ["✨","ليلي وغامض","night"],
-    ["🌿","طبيعي وحر","nature"]
+  { q:"روتين العناية ببشرتك عامل إزاي؟", opts:[
+    ["🚫","مفيش روتين","none"],["🧼","بسيط (غسول بس)","basic"],["🧴","متوسط (غسول + مرطب)","mid"],["✨","كامل (غسول + مرطب + واقي شمس/سيروم)","full"]
   ]},
-  { q:"إيه الشكل اللي عينك بتروح ليه؟", tag:"shape", w:4, opts:[
-    ["🧼","قطعة مساج كلاسيك","massage"],
-    ["🪙","قرص مزخرف","round"],
-    ["🌹","وردة","rose"],
-    ["🦋","فراشة","butterfly"],
-    ["💙","قلوب","hearts"],
-    ["🐝","شكل مختلف ومميز","unique"]
+  { q:"بتغسل وشك بالغسول كام مرة في الأسبوع؟", opts:[
+    ["1️⃣","مرة أو أقل","w1"],["2️⃣","٢-٣ مرات","w3"],["📅","كل يوم مرة","d1"],["🔁","كل يوم مرتين","d2"]
   ]},
-  { q:"الصابونة دي لمين؟", tag:"gift", w:2, opts:[
-    ["🛁","ليّا أنا، دلع لنفسي","self"],
-    ["🎁","هدية لحد غالي","dear"],
-    ["💌","هدية مناسبة كبيرة","occasion"],
-    ["👀","لسه بستكشف","browse"]
+  { q:"إيه أكتر حاجة عايز بشرتك تتحسن فيها؟", opts:[
+    ["💦","ترطيب","hydrate"],["🧽","تنضيف عميق وحبوب","clean"],["🌟","نضارة وتفتيح","glow"],["🕊️","تهدئة وراحة","soothe"]
   ]}
 ];
 
-const GIFT_MAP = { self:{calm:2}, dear:{romantic:2}, occasion:{royal:2}, browse:{nature:1,calm:1} };
+// answer -> mood/color tags it favours (recommendation by look and feel, not medical claims)
+const MAPS = {
+  oily:{mood:["night","nature"],color:["dark","green"]},
+  combo:{mood:["nature","calm"],color:["blue","green"]},
+  normal:{mood:["romantic","royal"],color:["pink","gold"]},
+  dry:{mood:["calm"],color:["pearl","pink"]},
+  sensitive:{mood:["calm","romantic"],color:["pearl","pink"]},
+  none:{mood:["calm"],color:["pearl"]},
+  basic:{mood:["nature"],color:["green","blue"]},
+  mid:{mood:["romantic"],color:["pink"]},
+  full:{mood:["royal"],color:["gold"]},
+  w1:{mood:["calm"],color:["pearl"]},
+  w3:{mood:["nature"],color:["blue"]},
+  d1:{mood:["romantic"],color:["pink"]},
+  d2:{mood:["night"],color:["dark"]},
+  hydrate:{mood:["calm"],color:["pearl","blue"]},
+  clean:{mood:["night","nature"],color:["dark","green"]},
+  glow:{mood:["royal"],color:["gold"]},
+  soothe:{mood:["calm","romantic"],color:["pearl","pink"]}
+};
 
 const app = document.getElementById("app");
 let answers = [];
@@ -136,7 +138,7 @@ function showIntro(){
   app.appendChild(el(`
     <div class="qcard fade">
       <div class="quiz-title">أي صابونة فرعونية تشبهك؟ 🏺</div>
-      <div class="quiz-sub">جاوب 4 أسئلة عن ذوقك ومزاجك، وهنطلعلك الصابونة اللي شبهك من مجموعة لوميرا، بصورتها وسعرها بعرض الوايت فرايداي.</div>
+      <div class="quiz-sub">جاوب 4 أسئلة عن بشرتك وروتينك، وهنرشحلك الصابونة المناسبة ليك من مجموعة لوميرا، بصورتها وسعرها بعرض الوايت فرايداي.</div>
       <button class="btn-gold" id="start">ابدأ الاختبار</button>
     </div>`));
   document.getElementById("start").onclick = ()=>{ answers=[]; showQuestion(0); };
@@ -163,18 +165,15 @@ function showQuestion(i){
 
 function score(){
   const s = PRODUCTS.map(()=>0);
-  answers.forEach((val,i)=>{
-    const q = QUESTIONS[i];
-    if(q.tag==="gift"){
-      const m = GIFT_MAP[val]||{};
-      PRODUCTS.forEach((p,k)=>{ for(const t in m) if(p.mood.includes(t)) s[k]+=m[t]; });
-    } else {
-      PRODUCTS.forEach((p,k)=>{ if(p[q.tag].includes(val)) s[k]+=q.w; });
-    }
+  answers.forEach((val)=>{
+    const m = MAPS[val]||{mood:[],color:[]};
+    PRODUCTS.forEach((p,k)=>{
+      m.mood.forEach(t=>{ if(p.mood.includes(t)) s[k]+=2; });
+      m.color.forEach(t=>{ if(p.color.includes(t)) s[k]+=1; });
+    });
   });
   const best = Math.max(...s);
   const tied = s.map((v,k)=>v===best?k:-1).filter(k=>k>=0);
-  // spread ties across equally-matching soaps so every product can appear
   const h = answers.join("|").split("").reduce((a,c)=>a+c.charCodeAt(0),0);
   return PRODUCTS[tied[h % tied.length]];
 }
