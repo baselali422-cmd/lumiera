@@ -154,6 +154,7 @@ function apply(){
   total++;
   var ok=matches(p,ln);
   a.classList.toggle("lum-hide",!ok);
+  if(ok){var im=a.querySelector("img");if(im&&im.loading!=="eager")im.loading="eager";}
   if(ok)vis++;
  });
  document.querySelectorAll("section.file-group").forEach(function(sec){
