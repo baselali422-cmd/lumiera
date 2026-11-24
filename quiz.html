@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>أي صابونة فرعونية تشبهك؟ | LUMIERA</title>
+<title id="ttl">أي صابونة فرعونية تشبهك؟ | LUMIERA</title>
 <meta name="description" content="اختبار لوميرا التفاعلي: جاوب 4 أسئلة عن ذوقك ومزاجك واكتشف صابونتك من مجموعتنا الفرعونية." />
 <style>
   *{box-sizing:border-box}
@@ -40,6 +40,8 @@
   .share-hint{color:#585254;font-size:12px;margin-top:14px;line-height:1.7}
   .back-link{display:inline-block;margin-top:18px;color:#a8832e;font-size:13px;font-weight:600;text-decoration:none}
   .credit{margin-top:22px;text-align:center;font-size:11px;letter-spacing:.25em;color:#a8832e}
+  .langbar{display:flex;justify-content:flex-end;margin:2px 0 6px}
+  .lang-btn{background:#fff;color:#a8832e;border:1px solid #c9a64c;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
   .fade{animation:fade .25s ease}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 </style>
@@ -47,8 +49,9 @@
 </head>
 <body>
 <div class="wrap">
+  <div class="langbar"><button class="lang-btn" id="langbtn" type="button"></button></div>
   <div class="hero">
-    <img class="emblem" src="./assets/emblem-DNJN-tGq.png" alt="شعار لوميرا" />
+    <img class="emblem" src="./assets/emblem-DNJN-tGq.png" alt="LUMIERA" id="emblem" />
     <div class="brand">LUMIERA</div>
   </div>
 
@@ -93,19 +96,27 @@ const PRODUCTS = [
 ];
 
 const QUESTIONS = [
-  { q:"إيه نوع بشرتك؟", opts:[
-    ["💧","دهنية","oily"],["⚖️","مختلطة","combo"],["🙂","عادية","normal"],["🏜️","جافة","dry"],["🌸","حساسة","sensitive"]
+  { q:"إيه نوع بشرتك؟", qe:"What is your skin type?", opts:[
+    ["💧","دهنية","Oily","oily"],["⚖️","مختلطة","Combination","combo"],["🙂","عادية","Normal","normal"],["🏜️","جافة","Dry","dry"],["🌸","حساسة","Sensitive","sensitive"]
   ]},
-  { q:"روتين العناية ببشرتك عامل إزاي؟", opts:[
-    ["🚫","مفيش روتين","none"],["🧼","بسيط (غسول بس)","basic"],["🧴","متوسط (غسول + مرطب)","mid"],["✨","كامل (غسول + مرطب + واقي شمس/سيروم)","full"]
+  { q:"روتين العناية ببشرتك عامل إزاي؟", qe:"What does your skincare routine look like?", opts:[
+    ["🚫","مفيش روتين","No routine","none"],["🧼","بسيط (غسول بس)","Simple (cleanser only)","basic"],["🧴","متوسط (غسول + مرطب)","Medium (cleanser + moisturizer)","mid"],["✨","كامل (غسول + مرطب + واقي شمس/سيروم)","Full (cleanser + moisturizer + sunscreen/serum)","full"]
   ]},
-  { q:"بتغسل وشك بالغسول كام مرة في الأسبوع؟", opts:[
-    ["1️⃣","مرة أو أقل","w1"],["2️⃣","٢-٣ مرات","w3"],["📅","كل يوم مرة","d1"],["🔁","كل يوم مرتين","d2"]
+  { q:"بتغسل وشك بالغسول كام مرة في الأسبوع؟", qe:"How often do you wash your face with cleanser?", opts:[
+    ["1️⃣","مرة أو أقل","Once a week or less","w1"],["2️⃣","٢-٣ مرات","2-3 times a week","w3"],["📅","كل يوم مرة","Once a day","d1"],["🔁","كل يوم مرتين","Twice a day","d2"]
   ]},
-  { q:"إيه أكتر حاجة عايز بشرتك تتحسن فيها؟", opts:[
-    ["💦","ترطيب","hydrate"],["🧽","تنضيف عميق وحبوب","clean"],["🌟","نضارة وتفتيح","glow"],["🕊️","تهدئة وراحة","soothe"]
+  { q:"إيه أكتر حاجة عايز بشرتك تتحسن فيها؟", qe:"What do you most want to improve in your skin?", opts:[
+    ["💦","ترطيب","Hydration","hydrate"],["🧽","تنضيف عميق وحبوب","Deep cleansing and blemishes","clean"],["🌟","نضارة وتفتيح","Glow and brightening","glow"],["🕊️","تهدئة وراحة","Soothing and comfort","soothe"]
   ]}
 ];
+
+const TX = {
+  ar:{title:"أي صابونة فرعونية تشبهك؟ | LUMIERA",quizTitle:"أي صابونة فرعونية تشبهك؟ 🏺",sub:"جاوب 4 أسئلة عن بشرتك وروتينك، وهنرشحلك الصابونة المناسبة ليك من مجموعة لوميرا، بصورتها وسعرها بعرض الوايت فرايداي.",start:"ابدأ الاختبار",step:function(i,n){return "سؤال "+(i+1)+" من "+n;},badge:"صابونتك طلعت",cur:"جنيه",wfNote:"سعر الوايت فرايداي بعد خصم 10% 🎉",order:"اطلبها على واتساب",again:"العب تاني",hint:"شارك الاختبار مع صحابك وشوف صابونتهم إيه ✨",back:"← شوف كل منتجات لوميرا",toggle:"English",alt:"شعار لوميرا",wa:function(n){return "مرحبًا، لعبت اختبار «أي صابونة فرعونية تشبهك؟» على موقع لوميرا وطلعتلي: "+n+" 🧼 عايز أطلبها بعرض الوايت فرايداي.";}},
+  en:{title:"Which Pharaonic soap matches you? | LUMIERA",quizTitle:"Which Pharaonic soap matches you? 🏺",sub:"Answer 4 questions about your skin and routine, and we will recommend the right soap from the LUMIERA collection, with its photo and White Friday price.",start:"Start the quiz",step:function(i,n){return "Question "+(i+1)+" of "+n;},badge:"YOUR SOAP",cur:"EGP",wfNote:"White Friday price after 10% off 🎉",order:"Order on WhatsApp",again:"Play again",hint:"Share the quiz with your friends and see which soap they get ✨",back:"← See all LUMIERA products",toggle:"عربي",alt:"LUMIERA logo",wa:function(n){return "Hi, I took the \"Which Pharaonic soap matches you?\" quiz on the LUMIERA website and got: "+n+" 🧼 I want to order it with the White Friday offer.";}}
+};
+function LG(){try{return localStorage.getItem("lum-lang")==="en"?"en":"ar";}catch(e){return "ar";}}
+function T(){return TX[LG()];}
+function pname(p){return LG()==="en"?p.en:p.ar;}
 
 // answer -> mood/color tags it favours (recommendation by look and feel, not medical claims)
 const MAPS = {
@@ -133,36 +144,6 @@ let answers = [];
 
 function el(html){ const d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstChild; }
 
-function showIntro(){
-  app.innerHTML = "";
-  app.appendChild(el(`
-    <div class="qcard fade">
-      <div class="quiz-title">أي صابونة فرعونية تشبهك؟ 🏺</div>
-      <div class="quiz-sub">جاوب 4 أسئلة عن بشرتك وروتينك، وهنرشحلك الصابونة المناسبة ليك من مجموعة لوميرا، بصورتها وسعرها بعرض الوايت فرايداي.</div>
-      <button class="btn-gold" id="start">ابدأ الاختبار</button>
-    </div>`));
-  document.getElementById("start").onclick = ()=>{ answers=[]; showQuestion(0); };
-}
-
-function showQuestion(i){
-  const q = QUESTIONS[i];
-  app.innerHTML = "";
-  const dots = QUESTIONS.map((_,k)=>`<div class="dot${k<=i?" on":""}"></div>`).join("");
-  const card = el(`
-    <div class="qcard fade">
-      <div class="qstep">سؤال ${i+1} من ${QUESTIONS.length}</div>
-      <div class="qtext">${q.q}</div>
-    </div>`);
-  q.opts.forEach(([emo,label,val])=>{
-    const b = el(`<button class="opt"><span class="emo">${emo}</span>${label}</button>`);
-    b.onclick = ()=>{ answers[i]=val; if(i+1<QUESTIONS.length) showQuestion(i+1); else showResult(); };
-    card.appendChild(b);
-  });
-  const prog = el(`<div class="progress">${dots}</div>`);
-  app.appendChild(prog);
-  app.appendChild(card);
-}
-
 function score(){
   const s = PRODUCTS.map(()=>0);
   answers.forEach((val)=>{
@@ -178,57 +159,88 @@ function score(){
   return PRODUCTS[tied[h % tied.length]];
 }
 
-function showResult(){
-  const p = score();
-  const wf = Math.round(p.price*0.9);
-  const msg = "مرحبًا، لعبت اختبار «أي صابونة فرعونية تشبهك؟» على موقع لوميرا وطلعتلي: " + p.ar + " 🧼 عايز أطلبها بعرض الوايت فرايداي.";
+
+var view={name:"intro",i:0,n:0};
+function resultHTML(p){
+  var t=T(),wf=Math.round(p.price*0.9),nm=pname(p),sec=LG()==="en"?p.ar:p.en;
+  var msg=t.wa(nm);
+  return `
+    <div class="result fade">
+      <span class="result-badge">${t.badge}</span>
+      <div class="result-title">${nm}</div>
+      <div class="result-en">${sec}</div>
+      <img class="result-photo" src="./assets/ai-${String(p.n).padStart(2,"0")}-1.jpg" alt="${nm}" />
+      <div class="price"><span class="price-old">${p.price} ${t.cur}</span><span class="price-new">${wf} ${t.cur}</span></div>
+      <div class="wf-note">${t.wfNote}</div>
+      <div class="result-actions">
+        <a class="btn-gold" id="wa" href="${WA}${encodeURIComponent(msg)}" target="_blank" rel="noopener">${t.order}</a>
+        <button class="btn-outline" id="again">${t.again}</button>
+      </div>
+      <div class="share-hint">${t.hint}</div>
+    </div>`;
+}
+function showIntro(){
+  view={name:"intro"};var t=T();
   app.innerHTML = "";
   app.appendChild(el(`
-    <div class="result fade">
-      <span class="result-badge">صابونتك طلعت</span>
-      <div class="result-title">${p.ar}</div>
-      <div class="result-en">${p.en}</div>
-      <img class="result-photo" src="./assets/ai-${String(p.n).padStart(2,"0")}-1.jpg" alt="${p.ar}" />
-      <div class="price"><span class="price-old">${p.price} جنيه</span><span class="price-new">${wf} جنيه</span></div>
-      <div class="wf-note">سعر الوايت فرايداي بعد خصم 10% 🎉</div>
-      <div class="result-actions">
-        <a class="btn-gold" id="wa" href="${WA}${encodeURIComponent(msg)}" target="_blank" rel="noopener">اطلبها على واتساب</a>
-        <button class="btn-outline" id="again">العب تاني</button>
-      </div>
-      <div class="share-hint">شارك الاختبار مع صحابك وشوف صابونتهم إيه ✨</div>
+    <div class="qcard fade">
+      <div class="quiz-title">${t.quizTitle}</div>
+      <div class="quiz-sub">${t.sub}</div>
+      <button class="btn-gold" id="start">${t.start}</button>
     </div>`));
-  document.getElementById("again").onclick = showIntro;
-  const back = el(`<div style="text-align:center"><a class="back-link" href="./index.html">← شوف كل منتجات لوميرا</a></div>`);
-  app.appendChild(back);
+  document.getElementById("start").onclick = ()=>{ answers=[]; showQuestion(0); };
 }
+function showQuestion(i){
+  view={name:"q",i:i};
+  var t=T(),en=LG()==="en",q=QUESTIONS[i];
+  app.innerHTML = "";
+  const dots = QUESTIONS.map((_,k)=>`<div class="dot${k<=i?" on":""}"></div>`).join("");
+  const card = el(`
+    <div class="qcard fade">
+      <div class="qstep">${t.step(i,QUESTIONS.length)}</div>
+      <div class="qtext">${en?q.qe:q.q}</div>
+    </div>`);
+  q.opts.forEach(([emo,ar,e,val])=>{
+    const b = el(`<button class="opt"><span class="emo">${emo}</span>${en?e:ar}</button>`);
+    b.onclick = ()=>{ answers[i]=val; if(i+1<QUESTIONS.length) showQuestion(i+1); else showResult(); };
+    card.appendChild(b);
+  });
+  app.appendChild(el(`<div class="progress">${dots}</div>`));
+  app.appendChild(card);
+}
+function drawResult(p){
+  var t=T();
+  app.innerHTML = "";
+  app.appendChild(el(resultHTML(p)));
+  document.getElementById("again").onclick = showIntro;
+  app.appendChild(el(`<div style="text-align:center"><a class="back-link" href="./index.html">${t.back}</a></div>`));
+}
+function showResult(){ var p=score(); view={name:"r",n:p.n}; drawResult(p); }
+function applyLang(){
+  var en=LG()==="en",t=T();
+  document.documentElement.lang=en?"en":"ar";
+  document.documentElement.dir=en?"ltr":"rtl";
+  document.title=t.title;
+  document.getElementById("langbtn").textContent=t.toggle;
+  document.getElementById("emblem").alt=t.alt;
+  if(view.name==="q") showQuestion(view.i);
+  else if(view.name==="r") drawResult(PRODUCTS.find(x=>x.n===view.n));
+  else showIntro();
+}
+document.getElementById("langbtn").onclick=function(){
+  try{localStorage.setItem("lum-lang",LG()==="en"?"ar":"en");}catch(e){}
+  applyLang();
+};
 
 // preview helper: open a specific result directly (used for design review)
 const m = location.hash.match(/^#result-(\d+)$/);
 if(m){
   const n = Math.max(1, Math.min(28, parseInt(m[1],10)));
-  const p = PRODUCTS.find(x=>x.n===n);
   answers = [];
-  app.innerHTML = "";
-  const wf = Math.round(p.price*0.9);
-  const msg = "مرحبًا، لعبت اختبار «أي صابونة فرعونية تشبهك؟» على موقع لوميرا وطلعتلي: " + p.ar + " 🧼 عايز أطلبها بعرض الوايت فرايداي.";
-  app.appendChild(el(`
-    <div class="result fade">
-      <span class="result-badge">صابونتك طلعت</span>
-      <div class="result-title">${p.ar}</div>
-      <div class="result-en">${p.en}</div>
-      <img class="result-photo" src="./assets/ai-${String(p.n).padStart(2,"0")}-1.jpg" alt="${p.ar}" />
-      <div class="price"><span class="price-old">${p.price} جنيه</span><span class="price-new">${wf} جنيه</span></div>
-      <div class="wf-note">سعر الوايت فرايداي بعد خصم 10% 🎉</div>
-      <div class="result-actions">
-        <a class="btn-gold" href="${WA}${encodeURIComponent(msg)}" target="_blank" rel="noopener">اطلبها على واتساب</a>
-        <button class="btn-outline" id="again">العب تاني</button>
-      </div>
-      <div class="share-hint">شارك الاختبار مع صحابك وشوف صابونتهم إيه ✨</div>
-    </div>`));
-  document.getElementById("again").onclick = showIntro;
-  app.appendChild(el(`<div style="text-align:center"><a class="back-link" href="./index.html">← شوف كل منتجات لوميرا</a></div>`));
+  view={name:"r",n:n};
+  applyLang();
 } else {
-  showIntro();
+  applyLang();
 }
 </script>
 </body>
