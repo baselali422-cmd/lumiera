@@ -37,6 +37,10 @@ var WA_NUMBER="201031914373";
 var IG_URL="https://www.instagram.com/lumierabeauty5/";
 var TT_URL="https://www.tiktok.com/@lumiera_beauty1";
 var STORE_KEY="lum-cart";
+var CUST_KEY="lum-cust";
+var LAST_KEY="lum-last-order";
+var BULK_MIN=5; /* 20% off from 5+ items (White Friday) */
+var BULK_PCT=20;
 var AR_DIGITS="٠١٢٣٤٥٦٧٨٩";
 
 function priceOf(p){return Math.round(p.price*0.9);} /* White Friday 10% price shown on the site */
@@ -59,7 +63,20 @@ var T={
   tt:"ابعت الطلب على تيك توك",
   copied:"تم نسخ الطلب ✅ ابعته في الرسايل",
   msgHead:"طلب جديد من موقع لوميرا 🧼",
-  msgTotal:"الإجمالي"
+  msgTotal:"الإجمالي",
+  buyNow:"اشتري دلوقتي ⚡",
+  subtotal:"الإجمالي قبل خصم الكمية",
+  bulkDisc:"خصم الكمية ٢٠٪ (٥ قطع أو أكتر)",
+  totalAfter:"الإجمالي بعد الخصم",
+  progressDone:"مبروك 🎉 خصم ٢٠٪ اتطبق على طلبك كله",
+  formTitle:"بيانات التوصيل",
+  formNote:"بتتحفظ على جهازك، ومش هتكتبها تاني",
+  phName:"الاسم",
+  phGov:"المحافظة",
+  phAddr:"العنوان بالتفصيل",
+  phPhone:"رقم التليفون",
+  custHead:"بيانات العميل",
+  reorder:"اطلب تاني نفس طلبك الأخير 🔄"
  },
  en:{
   fab:"Cart",
@@ -74,7 +91,20 @@ var T={
   tt:"Send the order on TikTok",
   copied:"Order copied ✅ paste it in the DMs",
   msgHead:"New order from the LUMIERA website 🧼",
-  msgTotal:"Total"
+  msgTotal:"Total",
+  buyNow:"Buy now ⚡",
+  subtotal:"Subtotal before bulk discount",
+  bulkDisc:"Bulk discount 20% (5+ items)",
+  totalAfter:"Total after discount",
+  progressDone:"Congrats 🎉 the 20% discount is applied to your whole order",
+  formTitle:"Delivery details",
+  formNote:"Saved on your device, no need to type them again",
+  phName:"Name",
+  phGov:"Governorate",
+  phAddr:"Full address",
+  phPhone:"Phone number",
+  custHead:"Customer details",
+  reorder:"Reorder your last order 🔄"
  }
 };
 
@@ -84,6 +114,31 @@ var cart=load();
 
 function count(){var s=0;for(var k in cart)s+=cart[k];return s;}
 function total(){var s=0;for(var k in cart)s+=priceOf(prod(+k))*cart[k];return s;}
+function bulkDiscount(){return count()>=BULK_MIN?Math.round(total()*BULK_PCT/100):0;}
+function finalTotal(){return total()-bulkDiscount();}
+function loadCust(){try{var c=JSON.parse(localStorage.getItem(CUST_KEY)||"{}");return typeof c==="object"&&c?c:{};}catch(e){return{};}}
+function saveCust(c){try{localStorage.setItem(CUST_KEY,JSON.stringify(c));}catch(e){}}
+function loadLast(){try{var o=JSON.parse(localStorage.getItem(LAST_KEY)||"null");if(!o)return null;for(var k in o)if(!prod(+k))return null;return o;}catch(e){return null;}}
+function saveLast(c){try{localStorage.setItem(LAST_KEY,JSON.stringify(c));}catch(e){}}
+function leftText(x,ln){
+ if(ln==="ar"){
+  if(x===1)return "ناقصك قطعة واحدة";
+  if(x===2)return "ناقصك قطعتين";
+  return "ناقصك "+digits(x,ln)+" قطع";
+ }
+ return x===1?"1 item left":x+" items left";
+}
+function progressLine(ln){
+ var t=T[ln],left=BULK_MIN-count();
+ return leftText(left,ln)+(ln==="ar"?" وتاخد خصم ٢٠٪ على الطلب كله 🎁":" to get 20% off your whole order 🎁");
+}
+function custLines(ln){
+ var t=T[ln],c=loadCust(),out=[];
+ function row(label,val){if(val&&String(val).trim())out.push(label+": "+String(val).trim());}
+ row(t.phName,c.name);row(t.phGov,c.gov);row(t.phAddr,c.addr);row(t.phPhone,c.phone);
+ if(!out.length)return [];
+ return [t.custHead+":"].concat(out);
+}
 
 function orderText(){
  var ln=lang(),t=T[ln],lines=[t.msgHead],i=1;
@@ -91,7 +146,21 @@ function orderText(){
   var p=prod(+k);
   lines.push(digits(i++,ln)+") "+(ln==="ar"?p.ar:p.en)+" ×"+digits(cart[k],ln)+" — "+money(priceOf(p)*cart[k],ln));
  }
- lines.push(t.msgTotal+": "+money(total(),ln));
+ if(bulkDiscount()>0){
+  lines.push(t.subtotal+": "+money(total(),ln));
+  lines.push(t.bulkDisc+": -"+money(bulkDiscount(),ln));
+ }
+ lines.push(t.msgTotal+": "+money(finalTotal(),ln));
+ var cl=custLines(ln);
+ if(cl.length)lines.push("",cl.join("\n"));
+ return lines.join("\n");
+}
+
+function singleText(n){
+ var ln=lang(),t=T[ln],p=prod(n);
+ var lines=[t.msgHead,digits(1,ln)+") "+(ln==="ar"?p.ar:p.en)+" ×"+digits(1,ln)+" — "+money(priceOf(p),ln),t.msgTotal+": "+money(priceOf(p),ln)];
+ var cl=custLines(ln);
+ if(cl.length)lines.push("",cl.join("\n"));
  return lines.join("\n");
 }
 
@@ -147,6 +216,7 @@ function renderDrawer(){
  h+='<div class="lum-cart-items">';
  if(count()===0){
   h+='<div class="lum-cart-empty">'+t.empty.replace(/\n/g,"<br>")+"</div>";
+  if(loadLast())h+='<div class="lum-cart-reorder-wrap"><button class="lum-cart-reorder" data-act="reorder">'+t.reorder+"</button></div>";
  }else{
   for(var k in cart){
    var p=prod(+k);
@@ -161,9 +231,27 @@ function renderDrawer(){
  }
  h+='</div>';
  if(count()>0){
-  h+='<div class="lum-cart-foot">'
-   +'<div class="lum-cart-total"><span>'+t.total+'</span><span>'+money(total(),ln)+'</span></div>'
-   +'<div class="lum-cart-ship">'+t.ship+'</div>'
+  var c=loadCust(),cnt=count(),disc=bulkDiscount();
+  h+='<div class="lum-cart-foot">';
+  h+='<div class="lum-bulk">'
+   +'<div class="lum-bulk-text">'+(disc>0?t.progressDone:progressLine(ln))+'</div>'
+   +'<div class="lum-bulk-bar"><div class="lum-bulk-fill" style="width:'+Math.min(100,Math.round(cnt/BULK_MIN*100))+'%"></div></div>'
+   +'</div>';
+  if(disc>0){
+   h+='<div class="lum-cart-subtotal"><span>'+t.subtotal+'</span><span>'+money(total(),ln)+'</span></div>'
+    +'<div class="lum-cart-disc"><span>'+t.bulkDisc+'</span><span>-'+money(disc,ln)+'</span></div>'
+    +'<div class="lum-cart-total"><span>'+t.totalAfter+'</span><span>'+money(finalTotal(),ln)+'</span></div>';
+  }else{
+   h+='<div class="lum-cart-total"><span>'+t.total+'</span><span>'+money(total(),ln)+'</span></div>';
+  }
+  h+='<div class="lum-cart-ship">'+t.ship+'</div>'
+   +'<div class="lum-cust">'
+   +'<div class="lum-cust-title">'+t.formTitle+' <span>'+t.formNote+'</span></div>'
+   +'<input class="lum-cust-in" data-cf="name" type="text" placeholder="'+t.phName+'" value="'+(c.name||"").replace(/"/g,"&quot;")+'">'
+   +'<input class="lum-cust-in" data-cf="gov" type="text" placeholder="'+t.phGov+'" value="'+(c.gov||"").replace(/"/g,"&quot;")+'">'
+   +'<input class="lum-cust-in" data-cf="addr" type="text" placeholder="'+t.phAddr+'" value="'+(c.addr||"").replace(/"/g,"&quot;")+'">'
+   +'<input class="lum-cust-in" data-cf="phone" type="tel" placeholder="'+t.phPhone+'" value="'+(c.phone||"").replace(/"/g,"&quot;")+'">'
+   +'</div>'
    +'<div class="lum-cart-send">'
    +'<button class="lum-send-wa" data-send="wa">'+t.wa+'</button>'
    +'<button class="lum-send-ig" data-send="ig">'+t.ig+'</button>'
@@ -184,6 +272,17 @@ function renderDrawer(){
  drawer.querySelectorAll("[data-send]").forEach(function(b){
   b.onclick=function(){sendOrder(b.getAttribute("data-send"));};
  });
+ var rb=drawer.querySelector('[data-act="reorder"]');
+ if(rb)rb.onclick=function(){
+  var o=loadLast();if(!o)return;
+  cart={};for(var k in o)cart[k]=o[k];
+  save(cart);syncBadge();renderDrawer();
+ };
+ drawer.querySelectorAll("[data-cf]").forEach(function(inp){
+  inp.oninput=function(){
+   var c=loadCust();c[inp.getAttribute("data-cf")]=inp.value;saveCust(c);
+  };
+ });
 }
 
 function copyText(txt,cb){
@@ -198,6 +297,8 @@ function copyText(txt,cb){
 }
 
 function sendOrder(kind){
+ var snap={};for(var k in cart)snap[k]=cart[k];
+ saveLast(snap);
  var txt=orderText();
  if(kind==="wa"){
   window.open("https://api.whatsapp.com/send?phone="+WA_NUMBER+"&text="+encodeURIComponent(txt),"_blank");
@@ -225,6 +326,12 @@ function ensureProductButton(){
  }
  /* the SPA keeps the order box (and our button) across product pages,
     so rebind the handler whenever the visible product changes */
+ var bn=order.parentNode.querySelector(":scope > .lum-buy-now");
+ if(!bn){
+  bn=document.createElement("button");
+  bn.className="lum-buy-now";
+  order.parentNode.insertBefore(bn,b.nextSibling);
+ }
  if(b.getAttribute("data-pn")===String(n))return;
  b.setAttribute("data-pn",String(n));
  b.textContent=T[lang()].add;b.classList.remove("added");
@@ -232,6 +339,11 @@ function ensureProductButton(){
   addToCart(n);
   b.textContent=T[lang()].added;b.classList.add("added");
   setTimeout(function(){b.textContent=T[lang()].add;b.classList.remove("added");},1400);
+ };
+ bn.setAttribute("data-pn",String(n));
+ bn.textContent=T[lang()].buyNow;
+ bn.onclick=function(){
+  window.open("https://api.whatsapp.com/send?phone="+WA_NUMBER+"&text="+encodeURIComponent(singleText(n)),"_blank");
  };
 }
 
