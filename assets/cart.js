@@ -40,6 +40,8 @@ var CUST_KEY="lum-cust";
 var LAST_KEY="lum-last-order";
 var BULK_MIN=5; /* 20% off from 5+ items (White Friday) */
 var BULK_PCT=20;
+var BULK_END=new Date("2026-11-28T00:00:00+02:00").getTime(); /* offer ends Nov 27, Cairo time */
+function bulkOn(){return Date.now()<BULK_END;}
 var AR_DIGITS="٠١٢٣٤٥٦٧٨٩";
 
 function priceOf(p){return Math.round(p.price*0.9);} /* White Friday 10% price shown on the site */
@@ -111,7 +113,7 @@ var cart=load();
 
 function count(){var s=0;for(var k in cart)s+=cart[k];return s;}
 function total(){var s=0;for(var k in cart)s+=priceOf(prod(+k))*cart[k];return s;}
-function bulkDiscount(){return count()>=BULK_MIN?Math.round(total()*BULK_PCT/100):0;}
+function bulkDiscount(){return bulkOn()&&count()>=BULK_MIN?Math.round(total()*BULK_PCT/100):0;}
 function finalTotal(){return total()-bulkDiscount();}
 function loadCust(){try{var c=JSON.parse(localStorage.getItem(CUST_KEY)||"{}");return typeof c==="object"&&c?c:{};}catch(e){return{};}}
 function saveCust(c){try{localStorage.setItem(CUST_KEY,JSON.stringify(c));}catch(e){}}
@@ -230,10 +232,12 @@ function renderDrawer(){
  if(count()>0){
   var c=loadCust(),cnt=count(),disc=bulkDiscount();
   h+='<div class="lum-cart-foot">';
-  h+='<div class="lum-bulk">'
-   +'<div class="lum-bulk-text">'+(disc>0?t.progressDone:progressLine(ln))+'</div>'
-   +'<div class="lum-bulk-bar"><div class="lum-bulk-fill" style="width:'+Math.min(100,Math.round(cnt/BULK_MIN*100))+'%"></div></div>'
-   +'</div>';
+  if(bulkOn()){
+   h+='<div class="lum-bulk">'
+    +'<div class="lum-bulk-text">'+(disc>0?t.progressDone:progressLine(ln))+'</div>'
+    +'<div class="lum-bulk-bar"><div class="lum-bulk-fill" style="width:'+Math.min(100,Math.round(cnt/BULK_MIN*100))+'%"></div></div>'
+    +'</div>';
+  }
   if(disc>0){
    h+='<div class="lum-cart-subtotal"><span>'+t.subtotal+'</span><span>'+money(total(),ln)+'</span></div>'
     +'<div class="lum-cart-disc"><span>'+t.bulkDisc+'</span><span>-'+money(disc,ln)+'</span></div>'
