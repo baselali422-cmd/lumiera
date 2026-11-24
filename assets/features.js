@@ -78,8 +78,8 @@ function priceRanges(ln){
 }
 function matches(p,ln){
  if(state.fav&&!isW(p[0]))return false;
- if(state.shape!=="all"&&p[1].split(" ").indexOf(state.shape)<0)return false;
- if(state.price!=="any"){var r=priceRanges(ln).filter(function(x){return x.k===state.price;})[0];if(r&&!r.test(shown(p)))return false;}
+ if(state.shape&&state.shape!=="all"&&p[1].split(" ").indexOf(state.shape)<0)return false;
+ if(state.price&&state.price!=="any"){var r=priceRanges(ln).filter(function(x){return x.k===state.price;})[0];if(r&&!r.test(shown(p)))return false;}
  var q=norm(state.q);
  if(q){
   var hay=norm(p[3]+" "+p[4]+" "+T.ar[p[1].split(" ")[0]]+" "+p[1]);
@@ -126,7 +126,7 @@ function buildBar(){
  var r1=el("div","lum-f-row");r1.id="lum-f-r1";
  SHAPES.forEach(function(s){
   var b=el("button","lum-f-chip",t[s]);b.type="button";b.setAttribute("data-shape",s);
-  b.onclick=function(){state.shape=s;apply();};r1.appendChild(b);
+  b.onclick=function(){state.shape=state.shape===s?"none":s;apply();};r1.appendChild(b);
  });
  var fb=el("button","lum-f-chip","");fb.type="button";fb.id="lum-f-fav";
  fb.onclick=function(){state.fav=!state.fav;apply();};
@@ -135,7 +135,7 @@ function buildBar(){
  var r2=el("div","lum-f-row");r2.id="lum-f-r2";
  priceRanges(ln).forEach(function(r){
   var b=el("button","lum-f-chip",r.l);b.type="button";b.setAttribute("data-price",r.k);
-  b.onclick=function(){state.price=r.k;apply();};r2.appendChild(b);
+  b.onclick=function(){state.price=state.price===r.k?"none":r.k;apply();};r2.appendChild(b);
  });
  bar.appendChild(r2);
  var fav=el("div","lum-f-favbar");fav.id="lum-f-favbar";bar.appendChild(fav);
@@ -177,7 +177,7 @@ function apply(){
   fbar.appendChild(a);fbar.appendChild(c);
  }
  var info=document.getElementById("lum-f-info");info.innerHTML="";
- var filtered=state.q||state.shape!=="all"||state.price!=="any"||state.fav;
+ var filtered=state.q||(state.shape&&state.shape!=="all")||(state.price&&state.price!=="any")||state.fav;
  info.appendChild(el("span","",fill(t.showing,{a:vis,b:total},ln)));
  if(filtered){var rs=el("button","lum-f-link",t.reset);rs.type="button";rs.onclick=function(){state.q="";state.shape="all";state.price="any";state.fav=false;var i=document.querySelector(".lum-f-search");if(i)i.value="";apply();};info.appendChild(rs);}
  var old=document.getElementById("lum-f-msg");if(old)old.remove();
