@@ -216,36 +216,49 @@ function ensureProductButton(){
  if(!m)return;
  var n=+m[1];if(!prod(n))return;
  var order=document.querySelector(".lum-order");
- if(!order||order.parentNode.querySelector(":scope > .lum-add-cart"))return;
- var b=document.createElement("button");
- b.className="lum-add-cart";
- b.textContent=T[lang()].add;
+ if(!order)return;
+ var b=order.parentNode.querySelector(":scope > .lum-add-cart");
+ if(!b){
+  b=document.createElement("button");
+  b.className="lum-add-cart";
+  order.parentNode.insertBefore(b,order);
+ }
+ /* the SPA keeps the order box (and our button) across product pages,
+    so rebind the handler whenever the visible product changes */
+ if(b.getAttribute("data-pn")===String(n))return;
+ b.setAttribute("data-pn",String(n));
+ b.textContent=T[lang()].add;b.classList.remove("added");
  b.onclick=function(){
   addToCart(n);
   b.textContent=T[lang()].added;b.classList.add("added");
   setTimeout(function(){b.textContent=T[lang()].add;b.classList.remove("added");},1400);
  };
- order.parentNode.insertBefore(b,order);
 }
 
 /* quiz page: add button on the result card */
 function ensureQuizButton(){
  var res=document.querySelector(".result .result-actions");
- if(!res||res.querySelector(".lum-add-cart"))return;
+ if(!res)return;
  var img=document.querySelector(".result .result-photo");
  if(!img)return;
  var m=(img.getAttribute("src")||"").match(/ai-(\d+)-1\.jpg/);
  if(!m)return;
  var n=+m[1];if(!prod(n))return;
- var b=document.createElement("button");
- b.className="lum-add-cart quiz-add-cart";
- b.textContent=T[lang()].add;
+ var b=res.querySelector(".lum-add-cart");
+ if(!b){
+  b=document.createElement("button");
+  b.className="lum-add-cart quiz-add-cart";
+  res.appendChild(b);
+ }
+ /* same stale-binding fix as the product page button */
+ if(b.getAttribute("data-pn")===String(n))return;
+ b.setAttribute("data-pn",String(n));
+ b.textContent=T[lang()].add;b.classList.remove("added");
  b.onclick=function(){
   addToCart(n);
   b.textContent=T[lang()].added;b.classList.add("added");
   setTimeout(function(){b.textContent=T[lang()].add;b.classList.remove("added");},1400);
  };
- res.appendChild(b);
 }
 
 var scheduled=false;
