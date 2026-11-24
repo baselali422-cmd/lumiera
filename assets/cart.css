@@ -54,3 +54,33 @@
 /* toast */
 .lum-cart-toast{pointer-events:none;position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(10px);background:#2c2620;color:#f6f7f1;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;opacity:0;transition:all .25s;white-space:nowrap;z-index:10000}
 .lum-cart-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+
+/* bulk discount progress */
+.lum-bulk{margin-bottom:12px}
+.lum-bulk-text{font-size:13px;font-weight:700;color:#a8832e;margin-bottom:6px;line-height:1.6}
+.lum-bulk[data-full="1"] .lum-bulk-text{color:#3e7d4e}
+.lum-bulk-bar{height:8px;border-radius:999px;background:rgba(168,131,46,.18);overflow:hidden}
+.lum-bulk-fill{height:100%;border-radius:999px;background:#a8832e;transition:width .3s}
+.lum-bulk[data-full="1"] .lum-bulk-fill{background:#3e7d4e}
+.lum-cart-subtotal,.lum-cart-disc{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px;color:#585254}
+.lum-cart-root.cart-dark .lum-cart-subtotal,.lum-cart-root.cart-dark .lum-cart-disc{color:#c9b68a}
+.lum-cart-disc span:last-child{color:#3e7d4e;font-weight:700}
+
+/* delivery details form */
+.lum-cust{margin:2px 0 12px;display:flex;flex-direction:column;gap:8px}
+.lum-cust-title{font-size:14px;font-weight:700;color:#a8832e}
+.lum-cust-title span{font-size:11px;font-weight:400;color:#8a7f6a}
+.lum-cust-in{width:100%;border:1.5px solid rgba(168,131,46,.45);border-radius:10px;background:#fff;color:#2c2620;padding:10px 12px;font-size:14px;font-family:inherit;outline:none}
+.lum-cust-in:focus{border-color:#a8832e}
+.lum-cart-root.cart-dark .lum-cust-in{background:#2c2620;color:#e8dcc0;border-color:rgba(217,182,92,.4)}
+
+/* buy now on product pages */
+.lum-buy-now{display:block;width:100%;margin:0 0 14px;background:#3e7d4e;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit}
+.lum-buy-now:hover{background:#346b42}
+
+/* reorder button */
+.lum-cart-reorder-wrap{padding:0 16px 18px;text-align:center}
+.lum-cart-reorder{width:100%;background:none;border:2px solid #a8832e;color:#a8832e;border-radius:10px;padding:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.lum-cart-root.cart-dark .lum-cart-reorder{color:#d9b65c;border-color:#d9b65c}
+.lum-cart-reorder:hover{background:rgba(168,131,46,.12)}
