@@ -78,7 +78,7 @@ function priceRanges(ln){
 }
 function matches(p,ln){
  if(state.fav&&!isW(p[0]))return false;
- if(state.shape&&state.shape!=="all"&&p[1].split(" ").indexOf(state.shape)<0)return false;
+ if(state.shape&&state.shape!=="all"&&state.shape!=="none"&&p[1].split(" ").indexOf(state.shape)<0)return false;
  if(state.price&&state.price!=="any"){var r=priceRanges(ln).filter(function(x){return x.k===state.price;})[0];if(r&&!r.test(shown(p)))return false;}
  var q=norm(state.q);
  if(q){
