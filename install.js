@@ -32,7 +32,7 @@
     }
     d=document.createElement('div');
     d.id='lum-install-card'; d.setAttribute('data-lg',l); d.dir=l==='en'?'ltr':'rtl';
-    d.style.cssText='border:0;border-top:2px solid #c9a64c;background:#17130c;padding:22px 16px 26px;margin:24px 0 0;text-align:center;font-family:system-ui,sans-serif';
+    d.style.cssText='border:0;border-top:2px solid #c9a64c;background:#17130c;padding:22px 16px 26px;margin:0;text-align:center;font-family:system-ui,sans-serif';
     d.innerHTML='<div class="lum-install-title" style="font-size:18px;font-weight:700;color:#d4af37;margin:2px 0 6px"></div>'+
       '<div class="lum-install-text" style="color:#b8a579;font-size:13px;line-height:1.8;margin-bottom:4px"></div>'+
       '<button type="button" class="lum-install-btn" style="background:linear-gradient(180deg,#e9cf8b,#a8832e);color:#241f14;border:0;border-radius:8px;padding:12px 32px;margin-top:8px;font-weight:700;font-size:16px;cursor:pointer"></button>'+
