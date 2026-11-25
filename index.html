@@ -14,6 +14,11 @@
 .quiz-promo-text{color:#585254;font-size:13px;line-height:1.8;margin-bottom:4px}
 .lum-dark .quiz-promo-text{color:#c9b68a}
 .quiz-promo-btn{display:inline-block;background:#a8832e;color:#fff;border-radius:8px;padding:10px 28px;margin-top:8px;font-weight:600;font-size:15px;text-decoration:none}
+.museum-promo{position:relative;border:2px solid #c9a64c;border-radius:16px;background:#17130c;padding:18px 14px 16px;margin:0 0 18px;text-align:center;box-shadow:0 0 24px rgba(201,166,76,.15)}
+.museum-promo-badge{position:absolute;top:-12px;inset-inline-start:16px;background:#17130c;border:1px solid #c9a64c;color:#d4af37;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:3px 12px;border-radius:999px}
+.museum-promo-title{font-size:18px;font-weight:700;color:#d4af37;margin:2px 0 6px}
+.museum-promo-text{color:#b8a579;font-size:13px;line-height:1.8;margin-bottom:4px}
+.museum-promo-btn{display:inline-block;background:linear-gradient(180deg,#e9cf8b,#a8832e);color:#241f14;border-radius:8px;padding:10px 28px;margin-top:8px;font-weight:700;font-size:15px;text-decoration:none}
 </style>
   <script type="module" crossorigin src="./assets/index-Bsr9x541.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-NPimmlz0.css">
@@ -39,6 +44,36 @@
         if(t===G[i][0]||t===G[i][1]){var w=l==='en'?G[i][1]:G[i][0];if(t!==w)p.textContent=w;}
       }
     });
+  }
+  var TM={ar:{badge:'\u062c\u062f\u064a\u062f',title:'\u0645\u062a\u062d\u0641 \u0644\u0648\u0645\u064a\u0631\u0627',text:'\u0627\u062a\u0641\u0631\u062c \u0639\u0644\u0649 \u0627\u0644\u0640 28 \u0635\u0627\u0628\u0648\u0646\u0629 \u0643\u0623\u0646\u0647\u0645 \u062a\u062d\u0641 \u0641\u064a \u0645\u062a\u062d\u0641\u060c \u0628\u0625\u0636\u0627\u0621\u0629 \u0630\u0647\u0628\u064a\u0629 \u0648\u0644\u0648\u062d\u0629 \u062a\u0639\u0631\u064a\u0641 \u0644\u0643\u0644 \u0642\u0637\u0639\u0629',btn:'\u0627\u062f\u062e\u0644 \u0627\u0644\u0645\u062a\u062d\u0641'},
+    en:{badge:'NEW',title:'The LUMIERA Museum',text:'See all 28 soaps displayed like museum pieces, with gold lighting and a plaque for each one',btn:'Enter the museum'}};
+  function insertMuseumBanner(){
+    var hero=document.querySelector('.lum-hero');
+    var d=document.getElementById('museum-promo');
+    var l=lg();
+    if(d){
+      if(d.getAttribute('data-lg')!==l){
+        var t=TM[l];d.setAttribute('data-lg',l);
+        d.querySelector('.museum-promo-badge').textContent=t.badge;
+        d.querySelector('.museum-promo-title').textContent=t.title;
+        d.querySelector('.museum-promo-text').textContent=t.text;
+        d.querySelector('.museum-promo-btn').textContent=t.btn;
+        d.dir=l==='en'?'ltr':'rtl';
+      }
+      return;
+    }
+    if(!hero||!hero.parentNode) return;
+    var t=TM[l];
+    d=document.createElement('div');
+    d.className='museum-promo'; d.id='museum-promo'; d.setAttribute('data-lg',l); d.dir=l==='en'?'ltr':'rtl';
+    d.innerHTML='<span class="museum-promo-badge"></span><div class="museum-promo-title"></div><div class="museum-promo-text"></div><a class="museum-promo-btn" href="./museum.html"></a>';
+    d.querySelector('.museum-promo-badge').textContent=t.badge;
+    d.querySelector('.museum-promo-title').textContent=t.title;
+    d.querySelector('.museum-promo-text').textContent=t.text;
+    d.querySelector('.museum-promo-btn').textContent=t.btn;
+    var q=document.getElementById('quiz-promo');
+    if(q&&q.parentNode){q.parentNode.insertBefore(d,q.nextSibling);}
+    else{hero.parentNode.insertBefore(d, hero.nextSibling);}
   }
   function insertQuizBanner(){
     var hero=document.querySelector('.lum-hero');
@@ -66,7 +101,7 @@
     d.querySelector('.quiz-promo-btn').textContent=t.btn;
     hero.parentNode.insertBefore(d, hero.nextSibling);
   }
-  function run(){insertQuizBanner();groups();}
+  function run(){insertQuizBanner();insertMuseumBanner();groups();}
   function start(){
     run();
     new MutationObserver(run).observe(document.body,{childList:true,subtree:true,characterData:true});
