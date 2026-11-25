@@ -1,0 +1,28 @@
+{
+  "name": "لوميرا | LUMIERA",
+  "short_name": "لوميرا",
+  "description": "صابون طبيعي صناعة يدوية مصرية",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "id": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f7f1",
+  "theme_color": "#a8832e",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}
