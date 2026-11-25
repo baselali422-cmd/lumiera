@@ -17,6 +17,18 @@
     var x=document.createElement('button'); x.textContent='\u2715'; x.setAttribute('aria-label','close'); x.style.cssText='background:none;border:0;color:#b8a579;font-size:16px;padding:4px 8px'; x.onclick=function(){localStorage.setItem(KEY,'1'); d.remove();}; d.appendChild(x);
     document.body.appendChild(d);
   }
+  function help(l,t){
+    var ua=navigator.userAgent, ar=l!=='en';
+    if(isIOS) return t.ios;
+    if(/FBAN|FBAV|Instagram|musical_ly|TikTok|Line\/|Snapchat|; wv\)/i.test(ua)) return ar?'أنت فاتح الموقع من جوه تطبيق (واتساب/تيك توك/فيسبوك). اضغط ⋮ أو ••• واختار "فتح في المتصفح"، وبعدها اضغط تثبيت التطبيق.':'You opened this inside another app. Tap the menu and choose "Open in browser", then tap Install.';
+    if(/HuaweiBrowser|HMSCore|HUAWEI|HONOR/i.test(ua)) return ar?'في متصفح هواوي: اضغط قائمة المتصفح (⋮ أو ☰)، اختار "إضافة إلى" ثم "الشاشة الرئيسية" (Home screen). هتظهر أيقونة لوميرا على الشاشة. لو الخيار مش موجود افتح الرابط من فايرفوكس أو أوبرا أو إيدج واختار "تثبيت".':'In Huawei Browser: open the browser menu, choose "Add to" then "Home screen". If you do not see it, open this page in Firefox, Opera or Edge and choose "Install".';
+    if(/Firefox|FxiOS/i.test(ua)) return ar?'في فايرفوكس: اضغط القائمة ⋮ ثم "تثبيت" (Install) أو "إضافة إلى الشاشة الرئيسية".':'In Firefox: tap the menu, then "Install" or "Add to Home screen".';
+    if(/SamsungBrowser/i.test(ua)) return ar?'في متصفح سامسونج: اضغط القائمة ☰ ثم "إضافة الصفحة إلى" ثم "الشاشة الرئيسية".':'In Samsung Internet: tap the menu, then "Add page to" then "Home screen".';
+    if(/OPR|Opera/i.test(ua)) return ar?'في أوبرا: اضغط القائمة ⋮ ثم "الشاشة الرئيسية" (Home screen) أو "إضافة إلى".':'In Opera: tap the menu, then "Home screen" or "Add to".';
+    if(/EdgA|Edge/i.test(ua)) return ar?'في إيدج: اضغط ⋯ ثم "إضافة إلى الهاتف" أو "تثبيت".':'In Edge: tap the menu, then "Add to phone" or "Install".';
+    if(/UCBrowser|Quark|MiuiBrowser|VivoBrowser|HeyTap/i.test(ua)) return ar?'من قائمة المتصفح اختار "إضافة إلى الشاشة الرئيسية" أو "إضافة اختصار". لو مش موجود، افتح الرابط من فايرفوكس أو إيدج أو أوبرا.':'From the browser menu choose "Add to Home screen" or "Add shortcut". If missing, open this page in Firefox, Edge or Opera.';
+    return t.manual;
+  }
   function card(){
     if(window.matchMedia('(display-mode: standalone)').matches||navigator.standalone){var ex=document.getElementById('lum-install-card');if(ex)ex.remove();return;}
     var d=document.getElementById('lum-install-card');
@@ -44,7 +56,7 @@
       if(dp){dp.prompt();dp.userChoice.then(function(){});return;}
       var n=d.querySelector('.lum-install-note');
       n.style.display='block';
-      n.textContent=isIOS?t.ios:t.manual;
+      n.textContent=help(l,t);
     };
     document.body.appendChild(d);
   }
@@ -60,3 +72,4 @@
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
 })();
+
