@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title id="ttl">متحف لوميرا | LUMIERA Museum</title>
+<meta name="description" content="متحف لوميرا: كل صابونة قطعة فريدة معروضة كتحفة، بإضاءة ذهبية ولوحة تعريف. صناعة يدوية مصرية." />
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:#0f0d09;
+    color:#e8dcc0;
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Arabic",sans-serif;
+    min-height:100vh;
+    background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,166,76,.14),transparent 60%);
+  }
+  .wrap{max-width:960px;margin-inline:auto;padding:14px 14px 40px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 2px}
+  .backlink{color:#c9a64c;text-decoration:none;font-size:13.5px;font-weight:600}
+  .lang-toggle{background:transparent;color:#c9a64c;border:1px solid #c9a64c;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+  .hero{text-align:center;padding:22px 10px 8px}
+  .emblem{width:92px;height:auto;margin-inline:auto;display:block;filter:drop-shadow(0 0 18px rgba(201,166,76,.45))}
+  .brand{font-size:28px;letter-spacing:.28em;color:#d4af37;margin-top:12px;font-weight:600}
+  .museum-title{
+    font-size:24px;font-weight:700;margin-top:14px;
+    background:linear-gradient(180deg,#f3e2a7 0%,#d4af37 55%,#a8832e 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .museum-sub{color:#b8a579;font-size:13.5px;margin-top:10px;line-height:1.9;max-width:520px;margin-inline:auto}
+  .rope{
+    height:26px;margin:18px auto 4px;max-width:640px;position:relative;
+    border-bottom:3px solid #8a6d2f;border-radius:50%;
+  }
+  .rope:before,.rope:after{
+    content:"";position:absolute;bottom:-8px;width:8px;height:26px;border-radius:4px;
+    background:linear-gradient(180deg,#e8c96a,#8a6d2f);
+  }
+  .rope:before{inset-inline-start:6%} .rope:after{inset-inline-end:6%}
+  .hall{margin-top:38px}
+  .hall-title{
+    text-align:center;font-size:19px;font-weight:700;color:#d4af37;letter-spacing:.06em;
+  }
+  .hall-rule{width:120px;height:1px;margin:8px auto 0;background:linear-gradient(90deg,transparent,#c9a64c,transparent)}
+  .pieces{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px 14px;margin-top:20px}
+  @media(min-width:640px){.pieces{grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:28px 20px}}
+  .piece{text-align:center;position:relative;padding-top:26px}
+  .piece:before{ /* spotlight cone */
+    content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);
+    width:150%;height:120px;pointer-events:none;
+    background:radial-gradient(ellipse 50% 100% at 50% 0%,rgba(233,201,106,.20),transparent 70%);
+  }
+  .frame{
+    position:relative;display:block;margin-inline:auto;width:100%;max-width:220px;
+    padding:7px;border-radius:4px;
+    background:linear-gradient(145deg,#f0d78a 0%,#a8832e 30%,#6e541c 50%,#d4af37 72%,#8a6d2f 100%);
+    box-shadow:0 10px 26px rgba(0,0,0,.65),0 0 22px rgba(201,166,76,.18);
+    text-decoration:none;
+  }
+  .mat{background:#f6f1df;padding:5px;border-radius:2px}
+  .mat img{display:block;width:100%;border-radius:2px}
+  .piece-no{
+    display:inline-block;margin-top:9px;font-size:10.5px;letter-spacing:.18em;color:#8a6d2f;font-weight:700;
+  }
+  .plaque{
+    margin:6px auto 0;max-width:200px;border-radius:6px;padding:8px 8px 9px;
+    background:linear-gradient(180deg,#e9cf8b 0%,#c9a64c 45%,#a8832e 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,0,.25),0 4px 10px rgba(0,0,0,.5);
+    color:#2b2113;
+  }
+  .plaque-name{font-size:13.5px;font-weight:700;line-height:1.5}
+  .plaque-en{font-size:10.5px;font-weight:600;opacity:.75;margin-top:1px;letter-spacing:.04em}
+  .plaque-price{margin-top:5px;font-size:12.5px;font-weight:700}
+  .plaque-price .old{text-decoration:line-through;font-weight:500;opacity:.65;font-size:11px;margin-inline-end:6px}
+  .plaque-order{
+    display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:#f6f1df;background:#2b2113;
+    border-radius:5px;padding:4px 14px;text-decoration:none;
+  }
+  .wf-note{text-align:center;color:#b8a579;font-size:12px;margin-top:34px}
+  .follow{text-align:center;margin-top:26px;font-size:13px;color:#b8a579}
+  .follow a{color:#d4af37;text-decoration:none;font-weight:700}
+  .credit{text-align:center;margin-top:18px;font-size:11px;letter-spacing:.22em;color:#6e5c33;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a class="backlink" href="./index.html" id="backlink">← المتجر</a>
+    <button class="lang-toggle" id="langbtn" type="button">English</button>
+  </div>
+  <div class="hero">
+    <img class="emblem" src="./assets/emblem-DNJN-tGq.png" alt="LUMIERA" />
+    <div class="brand">LUMIERA</div>
+    <div class="museum-title" id="mtitle"></div>
+    <div class="museum-sub" id="msub"></div>
+    <div class="rope"></div>
+  </div>
+  <div id="halls"></div>
+  <div class="wf-note" id="wfnote"></div>
+  <div class="follow" id="follow"></div>
+  <div class="credit">MADE BY LUMIERA</div>
+</div>
+
+<script>
+const WA = "https://api.whatsapp.com/send?phone=201031914373&text=";
+
+const PRODUCTS = [
+  {n:1,  ar:"قطعة مساج التوت الأحمر",  en:"Red Berry Massage Bar",   price:149, hall:0},
+  {n:2,  ar:"قطعة مساج الحرير الوردي", en:"Pink Silk Massage Bar",   price:139, hall:0},
+  {n:3,  ar:"قطعة مساج الليل الذهبي",  en:"Golden Night Massage Bar",price:159, hall:0},
+  {n:4,  ar:"قطعة مساج الزمرد",        en:"Emerald Massage Bar",     price:149, hall:0},
+  {n:5,  ar:"قطعة مساج السماء المرصعة",en:"Starry Sky Massage Bar",  price:159, hall:0},
+  {n:6,  ar:"قطعة مساج اللؤلؤ الأبيض", en:"White Pearl Massage Bar", price:129, hall:0},
+  {n:7,  ar:"قطعة مساج الفضة",         en:"Silver Massage Bar",      price:149, hall:0},
+  {n:8,  ar:"قطعة مساج اللؤلؤ",        en:"Pearl Massage Bar",       price:139, hall:0},
+  {n:9,  ar:"قطعة مساج الورد الفاتح",  en:"Soft Pink Massage Bar",   price:139, hall:0},
+  {n:10, ar:"قطعة مساج الذهب الأسود",  en:"Black Gold Massage Bar",  price:169, hall:0},
+  {n:11, ar:"القرص الأخضر الملكي",     en:"Royal Green Round",       price:129, hall:1},
+  {n:12, ar:"القرص الفضي",             en:"Silver Round",            price:139, hall:1},
+  {n:13, ar:"قرص الزمرد",              en:"Emerald Round",           price:149, hall:1},
+  {n:14, ar:"القرص الفيروزي",          en:"Turquoise Round",         price:149, hall:1},
+  {n:15, ar:"قرص الماندالا الليلي",    en:"Night Mandala Round",     price:139, hall:1},
+  {n:16, ar:"القرص الرمادي المنقوش",   en:"Engraved Grey Round",     price:129, hall:1},
+  {n:17, ar:"القرص الأزرق الفاتح",     en:"Light Blue Round",        price:119, hall:1},
+  {n:18, ar:"القرص الأزرق",            en:"Blue Oval",               price:129, hall:1},
+  {n:19, ar:"بيضة الفراشة اللؤلؤية",   en:"Pearl Butterfly Oval",    price:119, hall:2},
+  {n:20, ar:"وردة اللؤلؤ الأبيض",      en:"White Pearl Rose",        price:129, hall:2},
+  {n:21, ar:"الفراشة الفضية",          en:"Silver Butterfly",        price:139, hall:2},
+  {n:22, ar:"الفراشة الزرقاء",         en:"Blue Butterfly",          price:139, hall:2},
+  {n:23, ar:"الوردة الزرقاء",          en:"Blue Rose",               price:149, hall:2},
+  {n:24, ar:"القلبان الأزرقان",        en:"Twin Blue Hearts",        price:159, hall:2},
+  {n:25, ar:"الوردة الذهبية",          en:"Golden Rose",             price:169, hall:2},
+  {n:26, ar:"قرص النحلة الذهبي",       en:"Golden Bee Oval",         price:179, hall:2},
+  {n:27, ar:"الوردة الوردية اللؤلؤية", en:"Pink Pearl Rose",         price:139, hall:2},
+  {n:28, ar:"المربع الأزرق",           en:"Blue Square",             price:129, hall:2}
+];
+
+const TX = {
+  ar:{
+    title:"متحف لوميرا | LUMIERA",
+    mtitle:"متحف لوميرا",
+    msub:"٢٨ قطعة فريدة، كل واحدة مصنوعة يدويًا في مصر. اتفرج عليها كأنك في متحف، واختار قطعتك.",
+    back:"← المتجر",
+    toggle:"English",
+    piece:"قطعة رقم",
+    cur:"جنيه",
+    order:"اطلبها",
+    halls:["قاعة قطع المساج","قاعة الأقراص الملكية","قاعة الأشكال"],
+    wfnote:"الأسعار المعروضة أسعار الوايت فرايداي بعد خصم 10%",
+    follow:'تابعنا على <a href="https://www.instagram.com/lumierabeauty5" target="_blank" rel="noopener">Instagram</a> و <a href="https://www.tiktok.com/@lumiera_beauty1" target="_blank" rel="noopener">TikTok</a>',
+    wa:function(n){return "مرحبًا، شفت صابونة «"+n+"» في متحف لوميرا على الموقع وعايز أطلبها بعرض الوايت فرايداي.";}
+  },
+  en:{
+    title:"LUMIERA Museum",
+    mtitle:"The LUMIERA Museum",
+    msub:"28 one-of-a-kind pieces, each handmade in Egypt. Wander the gallery and pick yours.",
+    back:"← Shop",
+    toggle:"عربي",
+    piece:"PIECE No.",
+    cur:"EGP",
+    order:"Order",
+    halls:["Massage Bars Hall","Royal Rounds Hall","Shapes Hall"],
+    wfnote:"Prices shown are White Friday prices after 10% off",
+    follow:'Follow us on <a href="https://www.instagram.com/lumierabeauty5" target="_blank" rel="noopener">Instagram</a> and <a href="https://www.tiktok.com/@lumiera_beauty1" target="_blank" rel="noopener">TikTok</a>',
+    wa:function(n){return "Hi, I saw the \""+n+"\" soap in the LUMIERA Museum on your website and I'd like to order it with the White Friday offer.";}
+  }
+};
+
+function LG(){try{return localStorage.getItem("lum-lang")==="en"?"en":"ar";}catch(e){return "ar";}}
+function setLG(l){try{localStorage.setItem("lum-lang",l);}catch(e){}}
+
+function imgSrc(p){return "./assets/ai-"+String(p.n).padStart(2,"0")+"-1.jpg";}
+function num(n,l){return l==="ar"?n.toLocaleString("ar-EG"):String(n);}
+
+function render(){
+  const l=LG(), t=TX[l];
+  document.documentElement.lang=l;
+  document.documentElement.dir=l==="en"?"ltr":"rtl";
+  document.getElementById("ttl").textContent=t.title;
+  document.getElementById("mtitle").textContent=t.mtitle;
+  document.getElementById("msub").textContent=t.msub;
+  document.getElementById("backlink").textContent=t.back;
+  document.getElementById("langbtn").textContent=t.toggle;
+  document.getElementById("wfnote").textContent=t.wfnote;
+  document.getElementById("follow").innerHTML=t.follow;
+
+  const halls=document.getElementById("halls");
+  halls.innerHTML="";
+  t.halls.forEach(function(hname,hi){
+    const sec=document.createElement("section");
+    sec.className="hall";
+    sec.innerHTML='<div class="hall-title">'+hname+'</div><div class="hall-rule"></div>';
+    const grid=document.createElement("div");
+    grid.className="pieces";
+    PRODUCTS.filter(function(p){return p.hall===hi;}).forEach(function(p){
+      const wf=Math.round(p.price*0.9);
+      const name=l==="en"?p.en:p.ar;
+      const alt=l==="en"?p.ar:p.en;
+      const a=document.createElement("a");
+      a.className="frame";
+      a.href=WA+encodeURIComponent(t.wa(name));
+      a.target="_blank"; a.rel="noopener";
+      a.innerHTML='<span class="mat"><img src="'+imgSrc(p)+'" alt="'+name+'" loading="lazy"></span>';
+      const piece=document.createElement("div");
+      piece.className="piece";
+      piece.appendChild(a);
+      const pno=document.createElement("span");
+      pno.className="piece-no";
+      pno.textContent=t.piece+" "+num(p.n,l);
+      const plaque=document.createElement("div");
+      plaque.className="plaque";
+      plaque.innerHTML=
+        '<div class="plaque-name">'+name+'</div>'+
+        '<div class="plaque-en">'+alt+'</div>'+
+        '<div class="plaque-price"><span class="old">'+p.price+'</span>'+wf+' '+t.cur+'</div>'+
+        '<a class="plaque-order" href="'+a.href+'" target="_blank" rel="noopener">'+t.order+'</a>';
+      piece.appendChild(pno);
+      piece.appendChild(plaque);
+      grid.appendChild(piece);
+    });
+    sec.appendChild(grid);
+    halls.appendChild(sec);
+  });
+}
+
+document.getElementById("langbtn").addEventListener("click",function(){
+  setLG(LG()==="en"?"ar":"en");
+  render();
+});
+render();
+</script>
+</body>
+</html>
