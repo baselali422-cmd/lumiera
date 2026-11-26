@@ -21,7 +21,7 @@
     var ua=navigator.userAgent, ar=l!=='en';
     if(isIOS) return t.ios;
     if(/FBAN|FBAV|Instagram|musical_ly|TikTok|Line\/|Snapchat|; wv\)/i.test(ua)) return ar?'أنت فاتح الموقع من جوه تطبيق (واتساب/تيك توك/فيسبوك). اضغط ⋮ أو ••• واختار "فتح في المتصفح"، وبعدها اضغط تثبيت التطبيق.':'You opened this inside another app. Tap the menu and choose "Open in browser", then tap Install.';
-    if(/HuaweiBrowser|HMSCore|HUAWEI|HONOR/i.test(ua)) return ar?'في متصفح هواوي: اضغط قائمة المتصفح (⋮ أو ☰)، اختار "إضافة إلى" ثم "الشاشة الرئيسية" (Home screen). هتظهر أيقونة لوميرا على الشاشة. لو الخيار مش موجود افتح الرابط من فايرفوكس أو أوبرا أو إيدج واختار "تثبيت".':'In Huawei Browser: open the browser menu, choose "Add to" then "Home screen". If you do not see it, open this page in Firefox, Opera or Edge and choose "Install".';
+    if(/HuaweiBrowser|HMSCore|HUAWEI|HONOR/i.test(ua)) return ar?'على هواوي بيتعمل اختصار للموقع على الشاشة الرئيسية. جرّب واحدة من الاتنين: ١) من قائمة الصفحة (⋮ أو ☰) اختار "إضافة إلى سطح المكتب" (Add to desktop). ٢) لو مش موجودة: من القائمة اختار "إضافة إشارة مرجعية" (Add bookmark) وبعدين "الشاشة الرئيسية" (Home screen). لو الاتنين مش ظاهرين عندك، تقدر تكمل استخدام الموقع من المتصفح عادي.':'On Huawei the site is saved as a home-screen shortcut. Try one of these: 1) open the page menu and choose "Add to desktop". 2) If you do not see it: open the menu, choose "Add bookmark", then "Home screen". If neither option appears, you can keep using the website in your browser.';
     if(/Firefox|FxiOS/i.test(ua)) return ar?'في فايرفوكس: اضغط القائمة ⋮ ثم "تثبيت" (Install) أو "إضافة إلى الشاشة الرئيسية".':'In Firefox: tap the menu, then "Install" or "Add to Home screen".';
     if(/SamsungBrowser/i.test(ua)) return ar?'في متصفح سامسونج: اضغط القائمة ☰ ثم "إضافة الصفحة إلى" ثم "الشاشة الرئيسية".':'In Samsung Internet: tap the menu, then "Add page to" then "Home screen".';
     if(/OPR|Opera/i.test(ua)) return ar?'في أوبرا: اضغط القائمة ⋮ ثم "الشاشة الرئيسية" (Home screen) أو "إضافة إلى".':'In Opera: tap the menu, then "Home screen" or "Add to".';
@@ -72,4 +72,3 @@
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',start); else start();
 })();
-
