@@ -61,7 +61,8 @@ function lang(){try{return localStorage.getItem("lum-lang")==="en"?"en":"ar";}ca
 function dg(x,ln){var s=String(x);if(ln==="ar")s=s.replace(/[0-9]/g,function(d){return AR_DIGITS[+d];});return s;}
 function shown(p){return Math.round(p[2]*0.9);}
 function fill(s,o,ln){return s.replace(/\{(\w+)\}/g,function(m,k){return dg(o[k],ln);});}
-function norm(s){return String(s||"").toLowerCase().replace(/[\u064B-\u0652\u0640]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/\s+/g," ").trim();}
+var CANON={"زرقاء":"ازرق","زرقا":"ازرق","ازرق":"ازرق","فضي":"فضه","فضيه":"فضه","فضه":"فضه","ذهبي":"ذهب","ذهبيه":"ذهب","ذهب":"ذهب","خضراء":"اخضر","خضرا":"اخضر","اخضر":"اخضر","رمادي":"رمادي","رماديه":"رمادي","بيضاء":"ابيض","بيضا":"ابيض","ابيض":"ابيض","حمراء":"احمر","حمرا":"احمر","احمر":"احمر"};
+function norm(s){var t=String(s||"").toLowerCase().replace(/[\u064B-\u0652\u0640]/g,"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").replace(/\s+/g," ").trim();return t.split(" ").map(function(w){var b=w.length>3&&w.indexOf("ال")===0?w.slice(2):w;return CANON[b]||w;}).join(" ");}
 function loadW(){try{var a=JSON.parse(localStorage.getItem(WKEY)||"[]");var o=[];if(Array.isArray(a))a.forEach(function(n){n=+n;if(n>=1&&n<=P.length&&o.indexOf(n)<0)o.push(n);});return o;}catch(e){return [];}}
 function saveW(a){try{localStorage.setItem(WKEY,JSON.stringify(a));}catch(e){}}
 var wish=loadW();
