@@ -20,7 +20,7 @@ var sel=[];
 function css(){
  if(document.getElementById("lcmp-css"))return;
  var s=document.createElement("style");s.id="lcmp-css";
- s.textContent=".lcmp-btn{position:absolute;top:44px;inset-inline-end:8px;z-index:3;background:rgba(255,255,255,.92);color:#a8832e;border:1px solid #c9a64c;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}"
+ s.textContent=".lcmp-btn{position:absolute;top:8px;inset-inline-end:8px;z-index:3;background:rgba(255,255,255,.92);color:#a8832e;border:1px solid #c9a64c;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}"
  +".lcmp-btn.on{background:#a8832e;color:#fff}"
  +".lcmp-tray{position:fixed;bottom:20px;inset-inline-end:14px;z-index:9998;background:#241f14;color:#f3e9d0;border:1.5px solid #c9a64c;border-radius:16px;padding:8px 10px;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 100px);box-shadow:0 4px 16px rgba(0,0,0,.3);font-family:inherit}"
  +".lcmp-tray img{width:38px;height:38px;border-radius:8px;object-fit:cover;border:1px solid #c9a64c}"
