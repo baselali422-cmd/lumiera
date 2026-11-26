@@ -62,18 +62,7 @@ function openQV(n){
  document.body.appendChild(ov);document.body.style.overflow="hidden";renderQV();
 }
 document.addEventListener("keydown",function(e){if(e.key==="Escape")closeQV();});
-function ensureBtns(){
- var l=lang();
- document.querySelectorAll(".lum-cardlink").forEach(function(a){
-  var m=(a.getAttribute("href")||"").match(/\/p\/(\d+)/);if(!m)return;
-  var card=a.querySelector(".lum-card");if(!card)return;
-  var b=card.querySelector(".lqv-btn");
-  if(!b){b=el("button","lqv-btn","");b.type="button";
-   b.onclick=function(e){e.preventDefault();e.stopPropagation();openQV(+m[1]);};
-   card.insertBefore(b,card.firstChild);}
-  var w="\u{1F441} "+T[l].qv;if(b.textContent!==w)b.textContent=w;
- });
-}
+function ensureBtns(){ /* quick-look button removed by owner request */ }
 function related(n){
  var p=prod(n),g=grp(n);
  var c=P.filter(function(q){return q[0]!==n;}).map(function(q){
@@ -104,7 +93,7 @@ function ensureRel(){
  blk.appendChild(g);anchor.parentNode.insertBefore(blk,anchor);
 }
 var sched=false;
-function ensure(){css();ensureBtns();ensureRel();if(ov&&ov.getAttribute("data-lg")!==lang())renderQV();}
+function ensure(){ensureRel();}
 function onMut(){if(sched)return;sched=true;setTimeout(function(){sched=false;ensure();},90);}
 function start(){ensure();new MutationObserver(onMut).observe(document.body,{childList:true,subtree:true});window.addEventListener("hashchange",onMut);}
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
