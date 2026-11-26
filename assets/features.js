@@ -90,7 +90,7 @@ function matches(p,ln){
  return true;
 }
 
-var css=".lum-f{position:sticky;top:0;z-index:50;background:#f6f7f1;border:1px solid #c9a64c;border-radius:14px;padding:10px 10px 8px;margin:12px 0 14px;box-shadow:0 3px 10px rgba(0,0,0,.08)}"
+var css=".lum-f{z-index:50;background:#f6f7f1;border:1px solid #c9a64c;border-radius:14px;padding:10px 10px 8px;margin:12px 0 14px;box-shadow:0 3px 10px rgba(0,0,0,.08)}"
 +".lum-dark .lum-f{background:#241e15;border-color:#3a3226}"
 +".lum-f-search{width:100%;border:1px solid #c9a64c;border-radius:10px;padding:10px 12px;font-size:15px;font-family:inherit;background:#fff;color:#2c2620;outline:none}"
 +".lum-dark .lum-f-search{background:#14110c;color:#f2ece1}"
