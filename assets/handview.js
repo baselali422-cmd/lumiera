@@ -173,7 +173,7 @@ function ensure(){
  var anchor=document.getElementById("lx-share")||document.getElementById("lum-heart-pp")||document.querySelector(".lum-buy-now")||add;
  if(!b){b=el("button","lhv-open","");b.id="lhv-btn";b.type="button";anchor.parentNode.insertBefore(b,anchor.nextSibling);}
  else if(anchor.nextSibling!==b&&anchor!==b){anchor.parentNode.insertBefore(b,anchor.nextSibling);}
- b.setAttribute("data-n",String(n));b.textContent=T[lang()].btn;
+ var _t=T[lang()].btn;if(b.getAttribute("data-n")!==String(n))b.setAttribute("data-n",String(n));if(b.textContent!==_t)b.textContent=_t;
  b.onclick=function(){var q=+b.getAttribute("data-n");loadData(function(){open(q);});};
 }
 var sched=false;
