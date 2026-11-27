@@ -165,7 +165,7 @@ function apply(){
  bar.querySelectorAll("[data-shape]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-shape")===state.shape);});
  bar.querySelectorAll("[data-price]").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-price")===state.price);});
  var fb=document.getElementById("lum-f-fav");
- fb.textContent="♥ "+t.fav+(wish.length?" ("+dg(wish.length,ln)+")":"");
+ var _ft="♥ "+t.fav+(wish.length?" ("+dg(wish.length,ln)+")":"");if(fb.textContent!==_ft)fb.textContent=_ft;
  fb.classList.toggle("on",state.fav);
  var fbar=document.getElementById("lum-f-favbar");fbar.innerHTML="";
  if(state.fav&&wish.length){
@@ -186,7 +186,7 @@ function apply(){
   var msg=el("div","lum-f-msg",(state.fav&&!wish.length)?t.favEmpty:t.none);msg.id="lum-f-msg";
   bar.parentNode.insertBefore(msg,bar.nextSibling);
  }
- document.querySelectorAll(".lum-heart").forEach(function(h){var on=isW(+h.getAttribute("data-n"));h.classList.toggle("on",on);h.textContent=on?"♥":"♡";});
+ document.querySelectorAll(".lum-heart").forEach(function(h){var on=isW(+h.getAttribute("data-n"));h.classList.toggle("on",on);var _ht=on?"♥":"♡";if(h.textContent!==_ht)h.textContent=_ht;});
  syncProduct();
 }
 
@@ -223,10 +223,10 @@ function syncProduct(){
  if(!btn){btn=el("button","lum-heart-pp","");btn.id="lum-heart-pp";btn.type="button";
   var anchor=document.querySelector(".lum-buy-now")||add;
   anchor.parentNode.insertBefore(btn,anchor.nextSibling);}
- btn.setAttribute("data-n",String(n));
+ if(btn.getAttribute("data-n")!==String(n))btn.setAttribute("data-n",String(n));
  var on=isW(n);
  btn.classList.toggle("on",on);
- btn.textContent=(on?"♥ ":"♡ ")+(on?t.inFav:t.addFav);
+ var _bt=(on?"♥ ":"♡ ")+(on?t.inFav:t.addFav);if(btn.textContent!==_bt)btn.textContent=_bt;
 }
 
 document.addEventListener("click",function(e){
