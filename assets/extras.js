@@ -191,7 +191,7 @@ function ensureBadges(){
   var txt=stockText(+m[1],ln),b=card.querySelector(".lx-badge");
   if(!txt){if(b)b.remove();return;}
   if(!b){b=el("span","lx-badge");card.appendChild(b);}
-  b.textContent=txt;b.classList.toggle("out",stockOf(+m[1])<=0);
+  if(b.textContent!==txt)b.textContent=txt;b.classList.toggle("out",stockOf(+m[1])<=0);
  });
 }
 
@@ -204,7 +204,7 @@ function ensureProduct(){
  var anchor=document.getElementById("lum-heart-pp")||document.querySelector(".lum-buy-now")||add;
  if(!sh){sh=el("button","lx-share","");sh.id="lx-share";sh.type="button";anchor.parentNode.insertBefore(sh,anchor.nextSibling);}
  else if(anchor.nextSibling!==sh){anchor.parentNode.insertBefore(sh,anchor.nextSibling);}
- sh.setAttribute("data-n",String(n));sh.textContent="📲 "+t.share;
+ var _st="📲 "+t.share;if(sh.getAttribute("data-n")!==String(n))sh.setAttribute("data-n",String(n));if(sh.textContent!==_st)sh.textContent=_st;
  sh.onclick=function(){
   var q=+sh.getAttribute("data-n"),pp=P_(q),l=lang();
   var link=location.origin+location.pathname+"#/p/"+q;
@@ -213,7 +213,7 @@ function ensureProduct(){
  };
  var st=stockText(n,ln);
  if(!st){if(sk)sk.remove();}
- else{if(!sk){sk=el("span","lx-stk");sk.id="lx-stk";add.parentNode.insertBefore(sk,add);}sk.textContent="🔥 "+st;}
+ else{if(!sk){sk=el("span","lx-stk");sk.id="lx-stk";add.parentNode.insertBefore(sk,add);}var _kt="🔥 "+st;if(sk.textContent!==_kt)sk.textContent=_kt;}
 }
 
 function ensure(){addStyle();ensureHome();ensureBadges();ensureProduct();}
