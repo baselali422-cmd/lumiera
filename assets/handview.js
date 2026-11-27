@@ -107,7 +107,7 @@ function open(n){
  document.body.appendChild(root);
  function fit(){
   var vv=window.visualViewport;
-  if(vv&&vv.scale<=1.01){root.style.inset="auto";root.style.left="0px";root.style.top="0px";root.style.width=vv.width+"px";root.style.height=vv.height+"px";}
+  if(vv&&vv.scale<=1.01){root.style.inset="auto";root.style.left="0px";root.style.top="0px";root.style.width=vv.width+"px";root.style.height=vv.height+"px";var rc=root.getBoundingClientRect();if(Math.abs(rc.left)>0.5)root.style.left=(-rc.left)+"px";if(Math.abs(rc.top)>0.5)root.style.top=(-rc.top)+"px";}
  }
  fit();
  st={root:root,video:video,stream:null,ov:document.documentElement.style.overflow,face:"environment",pxcm:0,step:1,n:n};
